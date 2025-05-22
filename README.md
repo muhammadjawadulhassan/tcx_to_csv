@@ -25,3 +25,7 @@ A simple Streamlit app that converts Garmin TCX workout files into three CSVs:
    ```
    $ streamlit run streamlit_app.py
    ```
+# Online URL to Try the script
+   ```
+   https://tcx-to-csv.streamlit.app/
+   ``` 
