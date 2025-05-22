@@ -116,7 +116,7 @@ def parse_tcx_bytes(tcx_bytes):
     )
 
 def main():
-    st.title("TCX → CSV Converter")
+    st.title("TCX → CSV Converter (Still Updating)")
     uploaded = st.file_uploader("Upload your TCX file", type="tcx")
     if uploaded:
         st.info("Parsing…")
