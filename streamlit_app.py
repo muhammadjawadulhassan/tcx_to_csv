@@ -129,7 +129,7 @@ def main():
             mime="text/csv",
         )
         st.download_button(
-            "📥 Download tracks.csv",
+            "📥 Download tracks.csv (main file for work)",
             data=tracks_csv,
             file_name="tracks.csv",
             mime="text/csv",
