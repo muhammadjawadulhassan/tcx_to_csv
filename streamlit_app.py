@@ -9,7 +9,6 @@ def parse_tcx_bytes(tcx_bytes):
         'ext': 'http://www.garmin.com/xmlschemas/ActivityExtension/v2',
     }
 
-    # in-memory buffers
     act_buf = io.StringIO()
     lap_buf = io.StringIO()
     track_buf = io.StringIO()
@@ -18,7 +17,6 @@ def parse_tcx_bytes(tcx_bytes):
     lap_writer   = csv.writer(lap_buf,    delimiter=';')
     track_writer = csv.writer(track_buf,  delimiter=';')
 
-    # headers
     act_writer.writerow([
         "ActivityId","ActivitySport","CreatorName","ProductID"
     ])
@@ -32,17 +30,15 @@ def parse_tcx_bytes(tcx_bytes):
         "RunCadence","Speed","HeartRateBpm","LatitudeDegrees","LongitudeDegrees","Time"
     ])
 
-    # loop activities
     for activity in root.findall(".//tcx:Activity", ns):
         act_id      = activity.find("tcx:Id", ns).text
         sport       = activity.get("Sport", "Unknown")
         creator_el  = activity.find("tcx:Creator/tcx:Name", ns)
         product_el  = activity.find("tcx:Creator/tcx:ProductID", ns)
-        creator = creator_el.text if creator_el is not None else ""
-        product = product_el.text if product_el is not None else ""
+        creator     = creator_el.text if creator_el is not None else ""
+        product     = product_el.text if product_el is not None else ""
         act_writer.writerow([act_id, sport, creator, product])
 
-        # loop laps
         for lap_idx, lap in enumerate(activity.findall("tcx:Lap", ns), start=1):
             total_time_el = lap.find("tcx:TotalTimeSeconds", ns)
             distance_el   = lap.find("tcx:DistanceMeters",    ns)
@@ -60,34 +56,31 @@ def parse_tcx_bytes(tcx_bytes):
                 act_id,
                 lap_idx,
                 total_time_el.text if total_time_el is not None else "",
-                distance_el.text   if distance_el   is not None else "",
-                calories_el.text   if calories_el   is not None else "",
-                avg_hr_el.text     if avg_hr_el     is not None else "",
-                max_hr_el.text     if max_hr_el     is not None else "",
-                max_speed_el.text  if max_speed_el  is not None else "",
-                avg_cad_el.text    if avg_cad_el    is not None else "",
-                max_cad_el.text    if max_cad_el    is not None else "",
-                intensity_el.text  if intensity_el  is not None else "",
+                distance_el.text   if distance_el is not None else "",
+                calories_el.text   if calories_el is not None else "",
+                avg_hr_el.text     if avg_hr_el is not None else "",
+                max_hr_el.text     if max_hr_el is not None else "",
+                max_speed_el.text  if max_speed_el is not None else "",
+                avg_cad_el.text    if avg_cad_el is not None else "",
+                max_cad_el.text    if max_cad_el is not None else "",
+                intensity_el.text  if intensity_el is not None else "",
                 start_time,
-                trigger_el.text    if trigger_el    is not None else ""
+                trigger_el.text    if trigger_el is not None else ""
             ])
 
-            # loop trackpoints
             for tp_idx, tp in enumerate(lap.findall(".//tcx:Trackpoint", ns), start=1):
-                time_el = tp.find("tcx:Time",                     ns)
-                alt_el  = tp.find("tcx:AltitudeMeters",          ns)
-                dist_el = tp.find("tcx:DistanceMeters",          ns)
-                hr_el   = tp.find("tcx:HeartRateBpm/tcx:Value",   ns)
+                time_el = tp.find("tcx:Time",                   ns)
+                alt_el  = tp.find("tcx:AltitudeMeters",        ns)
+                dist_el = tp.find("tcx:DistanceMeters",        ns)
+                hr_el   = tp.find("tcx:HeartRateBpm/tcx:Value", ns)
 
-                # extension block for speed & cadence
                 tpx = tp.find("tcx:Extensions/ext:TPX", ns)
                 if tpx is not None:
-                    speed_el       = tpx.find("ext:Speed",       ns)
-                    run_cadence_el = tpx.find("ext:RunCadence",  ns)
+                    speed_el       = tpx.find("ext:Speed",      ns)
+                    run_cadence_el = tpx.find("ext:RunCadence", ns)
                 else:
                     speed_el = run_cadence_el = None
 
-                # position
                 pos = tp.find("tcx:Position", ns)
                 if pos is not None:
                     lat_el = pos.find("tcx:LatitudeDegrees",  ns)
@@ -116,7 +109,8 @@ def parse_tcx_bytes(tcx_bytes):
     )
 
 def main():
-    st.title("TCX → CSV Converter (Still Updating)")
+    st.title("TCX → CSV Converter")
+
     uploaded = st.file_uploader("Upload your TCX file", type="tcx")
     if uploaded:
         st.info("Parsing…")
@@ -135,12 +129,13 @@ def main():
             mime="text/csv",
         )
         st.download_button(
-            "📥 Download tracks.csv (main file to use for readings)",
+            "📥 Download tracks.csv",
             data=tracks_csv,
             file_name="tracks.csv",
             mime="text/csv",
         )
-# --- Footer ---
+
+    # --- Footer ---
     st.markdown(
         """
         <style>
@@ -160,7 +155,6 @@ def main():
         """,
         unsafe_allow_html=True
     )
-
 
 if __name__ == "__main__":
     main()
