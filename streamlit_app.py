@@ -135,23 +135,22 @@ def main():
             mime="text/csv",
         )
 
-    # --- Footer ---
+    # Footer with inline styles
     st.markdown(
         """
-        <style>
-        .footer {
-            position: fixed;
-            left: 0;
-            bottom: 0;
-            width: 100%;
-            text-align: center;
-            color: grey;
-            font-size: 0.8em;
-        }
-        </style>
-        <div class="footer">
-            Made with tech in UniPG
-        </div>
+        <footer style="
+          position: fixed;
+          left: 0;
+          bottom: 0;
+          width: 100%;
+          text-align: center;
+          color: grey;
+          font-size: 0.8em;
+          padding: 10px 0;
+          background-color: rgba(255,255,255,0.8);
+        ">
+          Made with tech in UniPG
+        </footer>
         """,
         unsafe_allow_html=True
     )
