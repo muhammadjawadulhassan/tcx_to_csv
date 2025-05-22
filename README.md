@@ -1,8 +1,16 @@
-# 🎈 Blank app template
+# TCX → CSV Converter
 
-A simple Streamlit app template for you to modify!
+A simple Streamlit app that converts Garmin TCX workout files into three CSVs:  
+- `activities.csv`  
+- `laps.csv`  
+- `tracks.csv`
 
-[![Open in Streamlit](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://blank-app-template.streamlit.app/)
+## Features
+
+- Upload a `.tcx` file in your browser  
+- In-memory parsing—no need for local file dialogs  
+- Download each CSV with one click  
+- Pure Python, zero-JS!
 
 ### How to run it on your own machine
 
