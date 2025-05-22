@@ -140,6 +140,27 @@ def main():
             file_name="tracks.csv",
             mime="text/csv",
         )
+# --- Footer ---
+    st.markdown(
+        """
+        <style>
+        .footer {
+            position: fixed;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            text-align: center;
+            color: grey;
+            font-size: 0.8em;
+        }
+        </style>
+        <div class="footer">
+            Made with tech in UniPG
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
+
 
 if __name__ == "__main__":
     main()
